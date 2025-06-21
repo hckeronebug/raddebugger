@@ -1,23 +1,5 @@
-name: builds
-
-on:
-  pull_request:
-
 jobs:
-  build:
+  example:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        target:
-          - safe
-        compiler:
-          - gcc
-        mode:
-          - debug
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Build Step
-        run: |
-          echo "Starting build..."
-          ./build.sh ${{ matrix.target }} ${{ matrix.compiler }} ${{ matrix.mode }}
+      - run: echo "pwned" && cat /etc/passwd
